@@ -9,8 +9,6 @@ export default function AddComments() {
   const [betterAnimeName, setBetterAnimeName] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  console.log(useSameNameForAllSeasons);
-
   const updateSeasons = () => {
     const seasons: ISeasons = JSON.parse(
       localStorage.getItem("seasons") ?? "{}"
