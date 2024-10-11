@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { waitForElement } from "./utils/waitForElement";
-import { Test } from "./components/Test";
+import { AddComments } from "./components/AddComments";
 import { addBodyObserver } from "./utils/observerBody";
 
 let currentUrl: string = "";
@@ -35,5 +35,7 @@ async function addSeasonsContentScript() {
   if (!seasonSelect) return;
 
   seasonSelect.insertAdjacentElement("afterend", root);
-  createRoot(document.getElementById(rootId)!).render(<Test />);
+  createRoot(document.getElementById(rootId)!).render(<AddComments />);
 }
+
+console.log("teste pq que não tá funfando");
