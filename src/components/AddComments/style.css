@@ -18,6 +18,7 @@
 }
 
 .add-comments-wrapper > button > div {
+  pointer-events: none;
   line-height: 1;
   padding: 1rem;
   opacity: 0;
@@ -44,4 +45,117 @@
 
 .comments-icon:hover {
   color: #2abdbb;
+}
+
+.comments-modal-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 500;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: 0.1s ease-out opacity;
+}
+
+.comments-modal-wrapper > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #0f0f0f;
+  padding: 2rem;
+}
+
+.comments-modal-wrapper > div > p {
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+  color: rgb(214, 214, 214);
+}
+
+.comments-modal-wrapper > div > input {
+  width: 20rem;
+  height: 2.5rem;
+  background-color: black;
+  border: 1px solid gray;
+  color: gray;
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+}
+
+.comments-modal-wrapper > div > input:focus {
+  outline: 1px solid white;
+}
+
+.comments-modal-wrapper > div > button {
+  margin-top: 1.5rem;
+  color: white;
+  border: 2px solid #ff640a;
+  color: #ff640a;
+  padding: 0.3rem 1rem;
+  transition: 0.2s ease-out filter;
+}
+
+.comments-modal-wrapper > div > button:disabled {
+  filter: brightness(0.5);
+}
+
+.comments-modal-wrapper > div > button:hover:not(:disabled),
+.comments-modal-wrapper > div > button:focus {
+  filter: brightness(1.3);
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  margin-top: 1rem;
+  color: gray;
+  gap: 0.5rem;
+}
+
+.checkbox > label {
+  color: #929292;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.checkbox > input {
+  appearance: none;
+  position: relative;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: gray;
+  cursor: pointer;
+}
+
+.checkbox > input::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.75rem;
+  height: 0.75rem;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: center;
+  transition: 0.125s transform ease-in-out;
+  box-shadow: inset 1rem 1rem #fff;
+}
+
+.checkbox > input:checked {
+  background-color: #ff640a;
+  border-color: #ff640a;
+}
+
+.checkbox > input:checked::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.checkbox > input:focus {
+  border-color: #e0138c;
 }

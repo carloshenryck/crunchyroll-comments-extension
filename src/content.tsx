@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { waitForElement } from "./utils/waitForElement";
-import { AddComments } from "./components/AddComments";
 import { addBodyObserver } from "./utils/observerBody";
+import AddComments from "./components/AddComments";
 
 let currentUrl: string = "";
 const rootId = "crx-root";
@@ -37,5 +37,3 @@ async function addSeasonsContentScript() {
   seasonSelect.insertAdjacentElement("afterend", root);
   createRoot(document.getElementById(rootId)!).render(<AddComments />);
 }
-
-console.log("teste pq que não tá funfando");
