@@ -2,7 +2,9 @@ import { useEffect } from "react";
 import "./style.css";
 
 export default function Comments() {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("pegando os comentários...");
+  }, []);
 
   return (
     <div className="comments-wrapper">

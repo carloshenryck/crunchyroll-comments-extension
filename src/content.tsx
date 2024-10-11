@@ -1,32 +1,21 @@
 import { createRoot } from "react-dom/client";
 import { waitForElement } from "./utils/waitForElement";
-import { addBodyObserver } from "./utils/observerBody";
 import AddComments from "./components/AddComments";
 import Comments from "./components/Comments";
 
-let currentUrl: string = "";
 const rootId = "crx-root";
 
-const observerCallback = () => {
-  const updatedUrl = window.location.href;
-  const hasChangedUrl = currentUrl !== updatedUrl;
-  if (!hasChangedUrl) return;
-
-  document.getElementById(rootId)?.remove();
-
-  if (updatedUrl.startsWith("https://www.crunchyroll.com/pt-br/series/")) {
+chrome.runtime.onMessage.addListener((request) => {
+  if (request.action === "runAddSeasonsContentScript") {
     addSeasonsContentScript();
   }
 
-  if (updatedUrl.startsWith("https://www.crunchyroll.com/pt-br/watch/")) {
+  if (request.action === "runAddCommentsContentScript") {
     addCommentsContentScript();
   }
 
-  currentUrl = updatedUrl;
-};
-
-addBodyObserver(".app-body-wrapper", observerCallback);
-observerCallback();
+  document.getElementById(rootId)?.remove();
+});
 
 async function addSeasonsContentScript() {
   const root = document.createElement("div");
