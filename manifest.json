@@ -8,10 +8,11 @@
     {
       "js": ["src/content.tsx"],
       "matches": ["https://www.crunchyroll.com/*"],
-      "run_at": "document_end"
+      "run_at": "document_start"
     }
   ],
   "background": {
     "service_worker": "src/service_worker.ts"
-  }
+  },
+  "host_permissions": ["https://disqus.com/*"]
 }

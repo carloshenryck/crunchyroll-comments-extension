@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./style.css";
 import { createPortal } from "react-dom";
 import { ISeasons } from "../../types/ISeason";
+import { getEpisodeByTitle } from "../../utils/getEpisodeByTitle";
 
 export default function AddComments() {
   const [useSameNameForAllSeasons, setUseSameNameForAllSeasons] =
@@ -42,11 +43,6 @@ export default function AddComments() {
 
   const saveSeasons = (season: ISeasons) => {
     localStorage.setItem("seasons", JSON.stringify(season));
-  };
-
-  const getEpisodeByTitle = (title: string): number => {
-    const episode = title.match(/E(\d+)/)?.[1];
-    return +(episode ?? -1);
   };
 
   return (
