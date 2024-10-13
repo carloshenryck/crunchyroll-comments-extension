@@ -1,4 +1,7 @@
-.comments-wrapper > h2 {
+.comments-session > h2 {
   margin-top: 3rem;
   font-weight: 500;
+}
+
+.comments-wrapper {
 }

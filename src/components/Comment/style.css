@@ -1,0 +1,44 @@
+.comment-wrapper {
+  width: 100%;
+}
+
+.comment {
+  width: 100%;
+  padding: 1rem 0;
+  display: flex;
+  gap: 1rem;
+}
+
+.comment > img {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 100%;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reply {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.reply > svg {
+  width: 1rem;
+  color: gray;
+}
+
+.reply > span {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.created-at {
+  font-size: 0.8rem;
+  color: gray;
+  font-weight: 700;
+}
