@@ -9,17 +9,16 @@ export default function Comments() {
   const [commentsData, setCommentsData] = useState<ICommentsData>();
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string>();
+  const animeName =
+    document.querySelector(".show-title-link h4")?.textContent ?? "";
+  const episode = getEpisodeByTitle(
+    document.querySelector(".erc-current-media-info h1")?.textContent ?? ""
+  );
 
-  const fetchComments = async () => {
-    const animeName =
-      document.querySelector(".show-title-link h4")?.textContent ?? "";
-
-    const episode = getEpisodeByTitle(
-      document.querySelector(".erc-current-media-info h1")?.textContent ?? ""
-    );
+  const fetchComments = async (nextPage: boolean = false) => {
+    setIsLoading(true);
 
     const season = getSeasonDataFromStore(animeName, episode);
-
     if (!season) {
       setErrorMsg("Sem comentários configurado");
       return;
@@ -29,6 +28,7 @@ export default function Comments() {
       {
         action: "fetchComments",
         animeName: season.betterAnimeName,
+        cursor: nextPage ? commentsData?.cursor.next : "",
         episode,
       },
       (response) => {
@@ -38,11 +38,12 @@ export default function Comments() {
           return;
         }
 
-        console.log(response.data.response);
-
         setCommentsData({
           ...response.data,
-          response: organizeComments(response.data.response),
+          response: organizeComments([
+            ...(commentsData?.response ?? []),
+            ...response.data.response,
+          ]),
         });
         setIsLoading(false);
       }
@@ -112,13 +113,32 @@ export default function Comments() {
   return (
     <div className="comments-session">
       <h2>Comentários</h2>
-      {errorMsg && <p>{errorMsg}</p>}
-      {isLoading && <p>Carregando...</p>}
+      {!commentsData && (
+        <div className="error-and-loader">
+          {errorMsg && <p>{errorMsg}</p>}
+          {isLoading && <div className="first-loader loader"></div>}
+        </div>
+      )}
+
       <div className="comments-wrapper">
         {commentsData?.response.map((comment) => (
           <Comment comment={comment} nestedLevel={0} />
         ))}
       </div>
+
+      {commentsData?.cursor.hasNext && (
+        <button
+          disabled={isLoading}
+          onClick={() => fetchComments(true)}
+          className="see-more"
+        >
+          {isLoading ? (
+            <div className="loader second-loader"></div>
+          ) : (
+            "Ver mais"
+          )}
+        </button>
+      )}
     </div>
   );
 }
