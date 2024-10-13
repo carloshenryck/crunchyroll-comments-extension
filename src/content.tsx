@@ -6,16 +6,28 @@ import Comments from "./components/Comments";
 const rootId = "crx-root";
 
 chrome.runtime.onMessage.addListener((request) => {
-  if (request.action === "runAddSeasonsContentScript") {
+  runActions(request.action);
+});
+
+const runActions = (action: string) => {
+  if (action === "runAddSeasonsContentScript") {
     addSeasonsContentScript();
   }
 
-  if (request.action === "runAddCommentsContentScript") {
+  if (action === "runAddCommentsContentScript") {
     addCommentsContentScript();
   }
 
   document.getElementById(rootId)?.remove();
-});
+};
+
+runActions(
+  window.location.href.includes("series")
+    ? "runAddSeasonsContentScript"
+    : window.location.href.includes("watch")
+    ? "runAddCommentsContentScript"
+    : ""
+);
 
 async function addSeasonsContentScript() {
   const root = document.createElement("div");
@@ -40,7 +52,6 @@ async function addCommentsContentScript() {
   const bodyWrapper = videosWrapper?.parentElement;
   if (!bodyWrapper) return;
 
-  console.log(bodyWrapper);
   bodyWrapper.insertAdjacentElement("afterend", root);
   createRoot(document.getElementById(rootId)!).render(<Comments />);
 }
