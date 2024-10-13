@@ -36,9 +36,11 @@ async function addCommentsContentScript() {
   const root = document.createElement("div");
   root.setAttribute("id", rootId);
 
-  const bodyWrapper = await waitForElement(".body-wrapper");
+  const videosWrapper = await waitForElement(".videos-wrapper");
+  const bodyWrapper = videosWrapper?.parentElement;
   if (!bodyWrapper) return;
 
+  console.log(bodyWrapper);
   bodyWrapper.insertAdjacentElement("afterend", root);
   createRoot(document.getElementById(rootId)!).render(<Comments />);
 }
