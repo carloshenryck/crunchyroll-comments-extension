@@ -42,3 +42,9 @@
   color: gray;
   font-weight: 700;
 }
+
+.deleted-comment {
+  color: gray;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}

@@ -16,5 +16,6 @@ export interface IComment {
   createdAt: string;
   parent: number | null;
   message: TrustedHTML;
+  isDeleted: boolean;
   replies?: IComment[];
 }

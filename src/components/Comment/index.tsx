@@ -10,7 +10,7 @@ interface Props {
 
 export function Comment({ comment, nestedLevel, replyingTo }: Props) {
   const NESTING_LIMIT = 3;
-  const { replies, author, createdAt, message } = comment;
+  const { replies, author, createdAt, message, isDeleted } = comment;
 
   const nestingLevel =
     nestedLevel > NESTING_LIMIT ? NESTING_LIMIT : nestedLevel;
@@ -28,26 +28,34 @@ export function Comment({ comment, nestedLevel, replyingTo }: Props) {
           alt=""
         />
         <div>
-          <p className="comment-header">
-            {author.name}
-            {replyingTo && (
-              <div className="reply">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M232.49,112.49l-48,48a12,12,0,0,1-17-17L195,116H128a84.09,84.09,0,0,0-84,84,12,12,0,0,1-24,0A108.12,108.12,0,0,1,128,92h67L167.51,64.48a12,12,0,0,1,17-17l48,48A12,12,0,0,1,232.49,112.49Z"></path>
-                </svg>
-                <span>{replyingTo}</span>
-              </div>
-            )}
-          </p>
-          <p className="created-at">{timeAgo(createdAt)}</p>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{ __html: message }}
-          ></div>
+          {!isDeleted && (
+            <p className="comment-header">
+              {author.name}
+              {replyingTo && (
+                <div className="reply">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M232.49,112.49l-48,48a12,12,0,0,1-17-17L195,116H128a84.09,84.09,0,0,0-84,84,12,12,0,0,1-24,0A108.12,108.12,0,0,1,128,92h67L167.51,64.48a12,12,0,0,1,17-17l48,48A12,12,0,0,1,232.49,112.49Z"></path>
+                  </svg>
+                  <span>{replyingTo}</span>
+                </div>
+              )}
+            </p>
+          )}
+          {isDeleted ? (
+            <p className="deleted-comment">Esse comentário foi apagado</p>
+          ) : (
+            <>
+              <p className="created-at">{timeAgo(createdAt)}</p>
+              <div
+                className="content"
+                dangerouslySetInnerHTML={{ __html: message }}
+              ></div>
+            </>
+          )}
         </div>
       </div>
 
