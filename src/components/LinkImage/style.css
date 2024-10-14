@@ -1,0 +1,21 @@
+.comment-image {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-image > button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  width: fit-content;
+  color: #13b2ba;
+}
+
+.comment-image > button > svg {
+  width: 1.25rem;
+}
+
+.comment-image > img {
+  margin-top: 0.5rem;
+  max-width: 20rem;
+}

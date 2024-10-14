@@ -1,6 +1,10 @@
+import { ReactPortal, useEffect, useState } from "react";
 import { IComment } from "../../types/ICommentsData";
 import { timeAgo } from "../../utils/timeAgo";
 import "./style.css";
+import { createPortal } from "react-dom";
+import { waitForElement } from "../../utils/waitForElement";
+import { LinkImage } from "../LinkImage";
 
 interface Props {
   comment: IComment;
@@ -10,10 +14,52 @@ interface Props {
 
 export function Comment({ comment, nestedLevel, replyingTo }: Props) {
   const NESTING_LIMIT = 3;
-  const { replies, author, createdAt, message, isDeleted } = comment;
+  const { replies, author, createdAt, message, isDeleted, media, id } = comment;
+  const [portals, setPortals] = useState<ReactPortal[]>();
 
   const nestingLevel =
     nestedLevel > NESTING_LIMIT ? NESTING_LIMIT : nestedLevel;
+
+  const formatMessage = (message: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(message, "text/html");
+
+    const images = Array.from(doc.querySelectorAll("a")).filter((link) =>
+      link.href.startsWith("https://uploads.disquscdn.com/images")
+    );
+
+    images.forEach((image, index) => {
+      const next = image.nextElementSibling;
+      if (next?.nodeName === "BR") {
+        next.remove();
+      }
+
+      const div = document.createElement("div");
+      div.setAttribute("id", `image-link-${index}-${id}`);
+
+      image.insertAdjacentElement("beforebegin", div);
+      image.remove();
+    });
+
+    return doc.body.innerHTML;
+  };
+
+  const addImageLink = async () => {
+    if (media.length === 0) return;
+    await waitForElement(`#image-link-0-${id}`);
+    const portals: ReactPortal[] = [];
+    media.forEach((img, index) => {
+      const div = document.querySelector(`#image-link-${index}-${id}`);
+      if (!div) return;
+      portals.push(createPortal(<LinkImage href={img.resolvedUrl} />, div));
+    });
+
+    setPortals(portals);
+  };
+
+  useEffect(() => {
+    addImageLink();
+  }, []);
 
   return (
     <div className="comment-wrapper">
@@ -52,12 +98,14 @@ export function Comment({ comment, nestedLevel, replyingTo }: Props) {
               <p className="created-at">{timeAgo(createdAt)}</p>
               <div
                 className="content"
-                dangerouslySetInnerHTML={{ __html: message }}
+                dangerouslySetInnerHTML={{ __html: formatMessage(message) }}
               ></div>
             </>
           )}
         </div>
       </div>
+
+      {portals}
 
       {replies?.map((reply) => (
         <Comment

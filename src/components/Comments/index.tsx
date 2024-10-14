@@ -45,6 +45,7 @@ export default function Comments() {
             ...response.data.response,
           ]),
         });
+
         setIsLoading(false);
       }
     );

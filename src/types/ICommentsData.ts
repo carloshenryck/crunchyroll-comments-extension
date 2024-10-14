@@ -12,10 +12,12 @@ export interface IComment {
     username: string;
     name: string;
   };
-  likes: number;
   createdAt: string;
   parent: number | null;
-  message: TrustedHTML;
+  message: string;
   isDeleted: boolean;
+  media: {
+    resolvedUrl: string;
+  }[];
   replies?: IComment[];
 }
